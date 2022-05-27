@@ -36,7 +36,7 @@ PATCH:	/account/update
 	{
 		"customerid":1,
 		"email":"some@email.com",
-		"phone":xxxxxxxxxx
+		"phone":"xxxxxxxxxx"
 	}
 
 To delete an account
