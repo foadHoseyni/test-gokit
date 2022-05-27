@@ -42,3 +42,7 @@ PATCH:	/account/update
 To delete an account
 
 DELETE: /account/{customerid}
+
+**test-gokit** project also contains **prometheus** and **grafana** for monitoring purposes which are running on ports **:9090** and **:3000** respectivley.
+
+The default username and password for grafana is **admin** and **admin**. 
