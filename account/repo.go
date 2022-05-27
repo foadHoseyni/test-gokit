@@ -27,19 +27,6 @@ func NewRepo(db *sql.DB, logger log.Logger) (Repository, error) {
 	}, nil
 }
 
-func (repo *repo) InitialCustomer(ctx context.Context) {
-	stmt := `DO $$
-	BEGIN
-	CREATE TABLE IF NOT EXISTS customers (
-	id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 124567895123 CACHE 1 ),
-	email character varying COLLATE pg_catalog."default",
-	phone character varying COLLATE pg_catalog."default",
-	CONSTRAINT customers_pkey PRIMARY KEY (id);
-	END;
-	$$;`
-	repo.db.Exec(stmt)
-}
-
 func (repo *repo) CreateCustomer(ctx context.Context, customer Customer) error {
 	stmt := `DO $$
 	BEGIN
