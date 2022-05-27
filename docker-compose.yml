@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  go-service-with-metrics:
+    container_name: go
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "postgres"
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "5432:5432"
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+  
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+    depends_on:
+      - go-service-with-metrics
+  
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+volumes:
+  dbdata: # create the volume for persisting data.
+            
